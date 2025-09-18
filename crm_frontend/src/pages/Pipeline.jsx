@@ -20,7 +20,8 @@ export default function Pipeline() {
     { title: 'Deals', dataIndex: 'count' },
     { title: 'Value', dataIndex: 'value', render: v => `$${v.toLocaleString()}` },
     { title: 'Momentum', dataIndex: 'trend', render: v => <Sparkline values={v} /> },
-    { title: 'Health', dataIndex: 'count', render: v => v > 10 ? <Badge type="success">Healthy</Badge> : <Badge type="warn">Low</Badge> },
+    // Use a unique dataIndex/key for Health to avoid duplicate key warnings with 'count'
+    { title: 'Health', dataIndex: 'health', render: (_v, row) => (row.count > 10 ? <Badge type="success">Healthy</Badge> : <Badge type="warn">Low</Badge>) },
   ];
 
   return (
