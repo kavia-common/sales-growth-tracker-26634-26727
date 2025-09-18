@@ -9,13 +9,15 @@ test('Sidebar shows navigation links', () => {
       <Sidebar />
     </MemoryRouter>
   );
-  expect(screen.getByText(/dashboard/i)).toBeInTheDocument();
-  expect(screen.getByText(/pipeline/i)).toBeInTheDocument();
-  expect(screen.getByText(/leads/i)).toBeInTheDocument();
-  expect(screen.getByText(/reports/i)).toBeInTheDocument();
-  expect(screen.getByText(/analytics/i)).toBeInTheDocument();
-  expect(screen.getByText(/team/i)).toBeInTheDocument();
-  expect(screen.getByText(/settings/i)).toBeInTheDocument();
+
+  // Prefer role-based queries for links to avoid ambiguity with other text instances
+  expect(screen.getByRole('link', { name: /dashboard/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /pipeline/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /leads/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /reports/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /analytics/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /team/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /settings/i })).toBeInTheDocument();
 });
 
 test('Active link receives active class when route matches', () => {
@@ -26,5 +28,6 @@ test('Active link receives active class when route matches', () => {
   );
   const active = container.querySelector('.nav-link.active');
   expect(active).toBeTruthy();
-  expect(active?.textContent?.toLowerCase()).toContain('leads');
+  // verify the active link accessible name corresponds to Leads
+  expect(screen.getByRole('link', { name: /leads/i })).toBeInTheDocument();
 });
