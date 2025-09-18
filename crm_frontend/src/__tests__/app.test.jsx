@@ -4,31 +4,6 @@ import { render, screen } from '@testing-library/react';
 import App from '../App';
 import Dashboard from '../pages/Dashboard';
 
-// Unified API mock covering all page usages to avoid undefined.then
-jest.mock('../services/api', () => ({
-  api: {
-    getMetrics: jest.fn().mockResolvedValue({
-      revenue: 100000,
-      growth: 10,
-      conversion: 10,
-      avgDeal: 5000,
-      trendRevenue: [1, 2],
-      trendLeads: [1, 2],
-    }),
-    getLeads: jest.fn().mockResolvedValue([]),
-    getPipeline: jest.fn().mockResolvedValue([]),
-    getReportSummary: jest.fn().mockResolvedValue({
-      quarters: ['Q1', 'Q2', 'Q3', 'Q4'],
-      revenue: [1, 2, 3, 4],
-      deals: [10, 10, 10, 10],
-      winRate: [20, 20, 20, 20],
-    }),
-    getUsers: jest.fn().mockResolvedValue([]),
-    updateUser: jest.fn().mockResolvedValue({}),
-    createLead: jest.fn().mockResolvedValue({ id: 1 }),
-  },
-}));
-
 // Helper to set initial location before rendering App directly.
 // App mounts its own BrowserRouter, so we must not wrap it in an additional router.
 function renderAtPath(path) {

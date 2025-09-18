@@ -3,25 +3,6 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import Reports from '../pages/Reports';
 
-// Full API mock with getReportSummary used by Reports
-jest.mock('../services/api', () => ({
-  api: {
-    getReportSummary: jest.fn().mockResolvedValue({
-      quarters: ['Q1','Q2','Q3','Q4'],
-      revenue: [240, 280, 320, 410],
-      deals: [40, 52, 58, 76],
-      winRate: [22, 24, 26, 30],
-    }),
-    // Provide defaults for other methods in case of indirect imports/usage
-    getMetrics: jest.fn().mockResolvedValue([]),
-    getLeads: jest.fn().mockResolvedValue([]),
-    getPipeline: jest.fn().mockResolvedValue([]),
-    getUsers: jest.fn().mockResolvedValue([]),
-    updateUser: jest.fn().mockResolvedValue({}),
-    createLead: jest.fn().mockResolvedValue({ id: 1 }),
-  }
-}));
-
 test('renders reports summary with quarters and revenue cards', async () => {
   render(
     <MemoryRouter initialEntries={['/reports']}>

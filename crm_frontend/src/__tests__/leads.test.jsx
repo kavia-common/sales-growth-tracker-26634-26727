@@ -2,23 +2,7 @@ import React from 'react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import Leads from '../pages/Leads';
-
-// Mock api methods used by Leads, while providing defaults for other API methods
-const mockGetLeads = jest.fn();
-const mockCreateLead = jest.fn();
-
-jest.mock('../services/api', () => ({
-  api: {
-    getLeads: (...args) => mockGetLeads(...args),
-    createLead: (...args) => mockCreateLead(...args),
-    // Defaults so any indirect usage won't break
-    getMetrics: jest.fn().mockResolvedValue([]),
-    getPipeline: jest.fn().mockResolvedValue([]),
-    getReportSummary: jest.fn().mockResolvedValue({}),
-    getUsers: jest.fn().mockResolvedValue([]),
-    updateUser: jest.fn().mockResolvedValue({}),
-  }
-}));
+import { api } from '../services/api';
 
 function renderLeads() {
   return render(
@@ -31,10 +15,11 @@ function renderLeads() {
 }
 
 beforeEach(() => {
-  mockGetLeads.mockResolvedValue([
+  // Override global mock for this test's specific data
+  api.getLeads.mockResolvedValueOnce([
     { id: 'l1', name: 'Acme Corp', owner: 'Alex', status: 'New', score: 80, source: 'Web', value: 1000 },
   ]);
-  mockCreateLead.mockResolvedValue({
+  api.createLead.mockResolvedValueOnce({
     id: 'l2', name: 'NewCo', owner: 'Jamie', status: 'Qualified', score: 90, source: 'Referral', value: 5000
   });
 });
@@ -64,7 +49,7 @@ test('creates a new lead via form and appears in table', async () => {
 
   fireEvent.click(screen.getByRole('button', { name: /add lead/i }));
 
-  await waitFor(() => expect(mockCreateLead).toHaveBeenCalled());
+  await waitFor(() => expect(api.createLead).toHaveBeenCalled());
 
   // New row appears (since component unshifts to top)
   const table = await screen.findByRole('table');

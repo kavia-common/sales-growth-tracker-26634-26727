@@ -1,23 +1,8 @@
 import React from 'react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Team from '../pages/Team';
-
-const mockGetUsers = jest.fn();
-const mockUpdateUser = jest.fn();
-
-jest.mock('../services/api', () => ({
-  api: {
-    getUsers: (...args) => mockGetUsers(...args),
-    updateUser: (...args) => mockUpdateUser(...args),
-    // Provide other API methods to avoid undefined issues
-    getMetrics: jest.fn().mockResolvedValue([]),
-    getLeads: jest.fn().mockResolvedValue([]),
-    getPipeline: jest.fn().mockResolvedValue([]),
-    getReportSummary: jest.fn().mockResolvedValue({}),
-    createLead: jest.fn().mockResolvedValue({ id: 1 }),
-  }
-}));
+import { api } from '../services/api';
 
 function renderTeam() {
   return render(
@@ -30,11 +15,12 @@ function renderTeam() {
 }
 
 beforeEach(() => {
-  mockGetUsers.mockResolvedValue([
+  // Provide specific data for this suite on top of global defaults
+  api.getUsers.mockResolvedValueOnce([
     { id: 'u1', name: 'Alex Kim', role: 'Sales Lead', email: 'alex@example.com', active: true },
     { id: 'u2', name: 'Sam Lee', role: 'AE', email: 'sam@example.com', active: false },
   ]);
-  mockUpdateUser.mockImplementation((_id, patch) => Promise.resolve({ id: _id, ...patch }));
+  api.updateUser.mockImplementation((_id, patch) => Promise.resolve({ id: _id, ...patch }));
 });
 
 afterEach(() => jest.clearAllMocks());
@@ -65,7 +51,7 @@ test('edit role flow and save updates', async () => {
   const saveButtons = screen.getAllByRole('button', { name: /save/i });
   fireEvent.click(saveButtons[0]);
 
-  await waitFor(() => expect(mockUpdateUser).toHaveBeenCalledWith('u1', { role: 'Director' }));
+  await waitFor(() => expect(api.updateUser).toHaveBeenCalledWith('u1', { role: 'Director' }));
 });
 
 test('toggle activation updates badge and button text', async () => {
@@ -80,7 +66,7 @@ test('toggle activation updates badge and button text', async () => {
     fireEvent.click(samRowButton);
   }
 
-  await waitFor(() => expect(mockUpdateUser).toHaveBeenCalled());
+  await waitFor(() => expect(api.updateUser).toHaveBeenCalled());
 
   // Since UI updates state after promise, badge should include Active somewhere
   expect(screen.getAllByText(/active/i).length).toBeGreaterThan(0);
