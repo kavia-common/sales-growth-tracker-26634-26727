@@ -3,7 +3,7 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import Leads from '../pages/Leads';
 
-// Mock api methods used by Leads
+// Mock api methods used by Leads, while providing defaults for other API methods
 const mockGetLeads = jest.fn();
 const mockCreateLead = jest.fn();
 
@@ -11,6 +11,12 @@ jest.mock('../services/api', () => ({
   api: {
     getLeads: (...args) => mockGetLeads(...args),
     createLead: (...args) => mockCreateLead(...args),
+    // Defaults so any indirect usage won't break
+    getMetrics: jest.fn().mockResolvedValue([]),
+    getPipeline: jest.fn().mockResolvedValue([]),
+    getReportSummary: jest.fn().mockResolvedValue({}),
+    getUsers: jest.fn().mockResolvedValue([]),
+    updateUser: jest.fn().mockResolvedValue({}),
   }
 }));
 

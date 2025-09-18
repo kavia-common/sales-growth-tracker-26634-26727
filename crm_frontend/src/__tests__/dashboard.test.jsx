@@ -3,6 +3,7 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import Dashboard from '../pages/Dashboard';
 
+// Comprehensive API mock for Dashboard's async usage
 jest.mock('../services/api', () => ({
   api: {
     getMetrics: jest.fn().mockResolvedValue({
@@ -10,14 +11,20 @@ jest.mock('../services/api', () => ({
       growth: 18.4,
       conversion: 12.6,
       avgDeal: 5400,
-      trendRevenue: [80,86,90],
-      trendLeads: [40,44,42],
+      trendRevenue: [80, 86, 90],
+      trendLeads: [40, 44, 42],
     }),
     getLeads: jest.fn().mockResolvedValue([
       { id: 'l1', name: 'Acme Corp', owner: 'Alex Kim', status: 'Qualified', score: 88, source: 'Web', value: 12000 },
       { id: 'l2', name: 'Globex', owner: 'Sam Lee', status: 'New', score: 60, source: 'Referral', value: 9000 },
     ]),
-  }
+    // Unused in this test but included for consistency across imports if any indirect usage occurs
+    getPipeline: jest.fn().mockResolvedValue([]),
+    getReportSummary: jest.fn().mockResolvedValue({}),
+    getUsers: jest.fn().mockResolvedValue([]),
+    updateUser: jest.fn().mockResolvedValue({}),
+    createLead: jest.fn().mockResolvedValue({ id: 1 }),
+  },
 }));
 
 test('renders KPI metrics and trends', async () => {

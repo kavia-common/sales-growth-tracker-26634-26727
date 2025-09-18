@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import App from '../App';
 import Dashboard from '../pages/Dashboard';
 
-// Mock api used in pages to avoid real network and control rendering timing
+// Unified API mock covering all page usages to avoid undefined.then
 jest.mock('../services/api', () => ({
   api: {
     getMetrics: jest.fn().mockResolvedValue({
@@ -16,15 +16,6 @@ jest.mock('../services/api', () => ({
       trendLeads: [1, 2],
     }),
     getLeads: jest.fn().mockResolvedValue([]),
-    createLead: jest.fn().mockResolvedValue({
-      id: 'l-new',
-      name: 'X',
-      owner: 'Y',
-      status: 'New',
-      score: 70,
-      source: 'Web',
-      value: 0,
-    }),
     getPipeline: jest.fn().mockResolvedValue([]),
     getReportSummary: jest.fn().mockResolvedValue({
       quarters: ['Q1', 'Q2', 'Q3', 'Q4'],
@@ -34,6 +25,7 @@ jest.mock('../services/api', () => ({
     }),
     getUsers: jest.fn().mockResolvedValue([]),
     updateUser: jest.fn().mockResolvedValue({}),
+    createLead: jest.fn().mockResolvedValue({ id: 1 }),
   },
 }));
 

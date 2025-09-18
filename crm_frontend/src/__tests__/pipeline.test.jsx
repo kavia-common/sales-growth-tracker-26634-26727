@@ -8,7 +8,14 @@ jest.mock('../services/api', () => ({
     getPipeline: jest.fn().mockResolvedValue([
       { id: 'p1', stage: 'Prospecting', count: 32, value: 45000, trend: [1,2,3] },
       { id: 'p2', stage: 'Qualification', count: 8, value: 12000, trend: [1,1,2] },
-    ])
+    ]),
+    // Defaults for completeness
+    getMetrics: jest.fn().mockResolvedValue([]),
+    getLeads: jest.fn().mockResolvedValue([]),
+    getReportSummary: jest.fn().mockResolvedValue({}),
+    getUsers: jest.fn().mockResolvedValue([]),
+    updateUser: jest.fn().mockResolvedValue({}),
+    createLead: jest.fn().mockResolvedValue({ id: 1 }),
   }
 }));
 

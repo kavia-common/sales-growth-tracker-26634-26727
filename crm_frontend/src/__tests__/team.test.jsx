@@ -10,6 +10,12 @@ jest.mock('../services/api', () => ({
   api: {
     getUsers: (...args) => mockGetUsers(...args),
     updateUser: (...args) => mockUpdateUser(...args),
+    // Provide other API methods to avoid undefined issues
+    getMetrics: jest.fn().mockResolvedValue([]),
+    getLeads: jest.fn().mockResolvedValue([]),
+    getPipeline: jest.fn().mockResolvedValue([]),
+    getReportSummary: jest.fn().mockResolvedValue({}),
+    createLead: jest.fn().mockResolvedValue({ id: 1 }),
   }
 }));
 
