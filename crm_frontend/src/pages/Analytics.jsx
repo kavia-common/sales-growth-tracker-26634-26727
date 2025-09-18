@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { AppLayout } from 'src/layouts/AppLayout';
-import { Card, Sparkline } from 'src/components/UI';
+import { AppLayout } from 'layouts/AppLayout';
+import { Card, Sparkline } from 'components/UI';
 
 /**
  * PUBLIC_INTERFACE

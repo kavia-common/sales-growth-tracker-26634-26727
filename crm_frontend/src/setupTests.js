@@ -7,4 +7,4 @@ import '@testing-library/jest-dom';
 
  // Ensure all tests use the manual mock for API under src/services/__mocks__/api.js
  // This makes all API methods Promise-based and avoids undefined.then errors across tests.
- jest.mock('src/services/api');
+ jest.mock('./services/api');
