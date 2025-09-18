@@ -69,7 +69,10 @@ test('toggle activation updates badge and button text', async () => {
   // Activate Sam (was inactive)
   const activateButtons = screen.getAllByRole('button', { name: /activate|deactivate/i });
   const samRowButton = activateButtons.find(btn => btn.textContent?.match(/activate/i));
-  fireEvent.click(samRowButton!);
+  expect(samRowButton).toBeTruthy();
+  if (samRowButton) {
+    fireEvent.click(samRowButton);
+  }
 
   await waitFor(() => expect(mockUpdateUser).toHaveBeenCalled());
 
