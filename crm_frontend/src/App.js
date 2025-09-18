@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './styles.css';
-import { applyTheme } from './theme';
-import Dashboard from './pages/Dashboard';
-import Pipeline from './pages/Pipeline';
-import Leads from './pages/Leads';
-import Reports from './pages/Reports';
-import Analytics from './pages/Analytics';
-import Team from './pages/Team';
-import Settings from './pages/Settings';
+import 'styles.css';
+import { applyTheme } from 'src/theme';
+import Dashboard from 'src/pages/Dashboard';
+import Pipeline from 'src/pages/Pipeline';
+import Leads from 'src/pages/Leads';
+import Reports from 'src/pages/Reports';
+import Analytics from 'src/pages/Analytics';
+import Team from 'src/pages/Team';
+import Settings from 'src/pages/Settings';
 
 /**
  * PUBLIC_INTERFACE

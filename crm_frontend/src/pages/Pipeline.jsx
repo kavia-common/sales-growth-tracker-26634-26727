@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { AppLayout } from '../layouts/AppLayout';
-import { api } from '../services/api';
-import { Card, DataTable, Sparkline, Badge } from '../components/UI';
+import { AppLayout } from 'src/layouts/AppLayout';
+import { api } from 'src/services/api';
+import { Card, DataTable, Sparkline, Badge } from 'src/components/UI';
 
 /**
  * PUBLIC_INTERFACE

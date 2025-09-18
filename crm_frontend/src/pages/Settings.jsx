@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppLayout } from '../layouts/AppLayout';
-import { Card } from '../components/UI';
+import { AppLayout } from 'src/layouts/AppLayout';
+import { Card } from 'src/components/UI';
 
 /**
  * PUBLIC_INTERFACE

@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Team from '../pages/Team';
-import { api } from '../services/api';
+import { api } from 'src/services/api';
 
 function renderTeam() {
   return render(
