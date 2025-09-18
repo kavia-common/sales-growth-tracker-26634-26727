@@ -3,12 +3,6 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
 import Dashboard from '../pages/Dashboard';
-import Pipeline from '../pages/Pipeline';
-import Leads from '../pages/Leads';
-import Reports from '../pages/Reports';
-import Analytics from '../pages/Analytics';
-import Team from '../pages/Team';
-import Settings from '../pages/Settings';
 
 // Mock api used in pages to avoid real network and control rendering timing
 jest.mock('../services/api', () => ({
@@ -18,30 +12,36 @@ jest.mock('../services/api', () => ({
       growth: 10,
       conversion: 10,
       avgDeal: 5000,
-      trendRevenue: [1,2],
-      trendLeads: [1,2]
+      trendRevenue: [1, 2],
+      trendLeads: [1, 2],
     }),
     getLeads: jest.fn().mockResolvedValue([]),
-    createLead: jest.fn().mockResolvedValue({ id: 'l-new', name: 'X', owner: 'Y', status: 'New', score: 70, source: 'Web', value: 0 }),
+    createLead: jest.fn().mockResolvedValue({
+      id: 'l-new',
+      name: 'X',
+      owner: 'Y',
+      status: 'New',
+      score: 70,
+      source: 'Web',
+      value: 0,
+    }),
     getPipeline: jest.fn().mockResolvedValue([]),
     getReportSummary: jest.fn().mockResolvedValue({
-      quarters: ['Q1','Q2','Q3','Q4'],
-      revenue: [1,2,3,4],
-      deals: [10,10,10,10],
-      winRate: [20,20,20,20]
+      quarters: ['Q1', 'Q2', 'Q3', 'Q4'],
+      revenue: [1, 2, 3, 4],
+      deals: [10, 10, 10, 10],
+      winRate: [20, 20, 20, 20],
     }),
     getUsers: jest.fn().mockResolvedValue([]),
     updateUser: jest.fn().mockResolvedValue({}),
-  }
+  },
 }));
 
+// Helper to set initial location before rendering App directly.
+// App mounts its own BrowserRouter, so we must not wrap it in an additional router.
 function renderAtPath(path) {
-  // Use MemoryRouter with full App to verify routes
-  return render(
-    <MemoryRouter initialEntries={[path]}>
-      <App />
-    </MemoryRouter>
-  );
+  window.history.pushState({}, 'Test page', path);
+  return render(<App />);
 }
 
 test('Dashboard route renders header title', async () => {
@@ -86,7 +86,7 @@ test('Settings route renders', async () => {
   expect(title).toBeInTheDocument();
 });
 
-// Sanity check AppLayout composition by rendering sample pages directly
+// Sanity check AppLayout composition by rendering sample page directly via MemoryRouter to supply routing context
 test('Layout includes Sidebar and Header elements', async () => {
   render(
     <MemoryRouter initialEntries={['/']}>
